@@ -27,7 +27,7 @@ else:
     interval = 10
 
 # Start subprocess
-producer = subprocess.Popen(['iostat', '-x', str(interval)],
+producer = subprocess.Popen(['/usr/bin/iostat', '-x', str(interval)],
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 # iostat columns excluding device
