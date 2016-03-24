@@ -7,8 +7,8 @@
 # Copyright (c) 2016  Nexenta Systems
 # William Kettler <william.kettler@nexenta.com>
 #
-# Version 0.2.0
-# January 4, 2016
+# Version 0.3.0
+# March 24, 2016
 #
 
 use strict;
@@ -80,8 +80,8 @@ sub putval {
     #
     # PUTVAL, collectd EXEC plaintext protocol
     #
-    my ($category, $name, $type, $key, $interval, $value) = @_;
-    print "PUTVAL \"$category/$name/$type-$key\" interval=$interval ",
+    my ($category, $name, $key, $interval, $value) = @_;
+    print "PUTVAL \"$category/$name/$key\" interval=$interval ",
         "N:$value\n";
 }
 
@@ -91,7 +91,6 @@ sub put_cpu {
     #
     my $category = "cpu";
     my $module   = "cpu_stat";
-    my $type     = "gauge";
     my @keys     = ("user", "kernel", "wait", "idle", "xcalls");
 
     # Iterate over each cpu instance
@@ -101,7 +100,7 @@ sub put_cpu {
         for (@keys) {
             # Read kstat and write value
             my $value = ${kstat}->{$module}{$instance}{$name}{$_};
-            putval($category, $name, $type, $_, $interval, $value);
+            putval($category, $name, $_, $interval, $value);
         }
     }
 }
@@ -125,7 +124,6 @@ sub put_mem {
     my $module   = "unix";
     my $instance = 0;
     my $name     = "system_pages";
-    my $type     = "gauge";
     my @keys     = ("freemem", "availrmem", "pageslocked", "pagestotal",
                     "pp_kernel", "physmem");
     my %stats    = ();
@@ -133,7 +131,7 @@ sub put_mem {
 
     # Iterate over each defined kstat
     for (@keys) {
-        # Read kstat and write value
+        # Read kstat and store values
         my $value = ${kstat}->{$module}->{$instance}->{$name}->{$_};
         $stats{$_} = $value;
     }
@@ -141,18 +139,18 @@ sub put_mem {
     $mem{"total"} = $stats{"physmem"};
     if ($stats{"pp_kernel"} < $stats{"pageslocked"}) {
     	# Here we assume all pp_kernel pages are in memory
-    	$mem{"kernel"} = $stats{"pp_kernel"};
+    	$mem{"kern"} = $stats{"pp_kernel"};
     	$mem{"locked"} = $stats{"pageslocked"} - $stats{"pp_kernel"};
     } else {
     	# Here we assume pageslocked is entirely kernel
-    	$mem{"kernel"} = $stats{"pageslocked"};
+    	$mem{"kern"} = $stats{"pageslocked"};
     	$mem{"locked"} = 0;
     }
-    $mem{"used"} = $stats{"pagestotal"} - $stats{"freemem"} - $mem{"kernel"} -
+    $mem{"used"} = $stats{"pagestotal"} - $stats{"freemem"} - $mem{"kern"} -
         $mem{"locked"};
 
     while (my ($k, $v) = each(%mem)) {
-        putval($category, $alias, $type, $k, $interval, $v * $pagesz);
+        putval($category, $alias, $k, $interval, $v * $pagesz);
     }
 }
 
@@ -163,8 +161,7 @@ sub put_net {
     my $category = "network";
     my $module   = "link";
     my $instance = 0;
-    my $type     = "gauge";
-    my @keys     = ("obytes", "rbytes", "opackets", "ipackets", "oerrors",
+    my @keys     = ("obytes64", "rbytes64", "opackets64", "ipackets64", "oerrors",
                     "ierrors");
 
     # Iterate over each network interface
@@ -173,7 +170,7 @@ sub put_net {
         for (@keys) {
             # Read kstat and write value
             my $value = ${kstat}->{$module}{$instance}{$name}{$_};
-            putval($category, $name, $type, $_, $interval, $value);
+            putval($category, $name, $_, $interval, $value);
         }
     }
 }
@@ -185,7 +182,6 @@ sub put_stmf {
     my $category = "stmf";
     my $module   = "stmf";
     my $instance = 0;
-    my $type     = "gauge";
     my $alias    = '';
     my $id       = '';
 
@@ -217,7 +213,7 @@ sub put_stmf {
         # Iterate over every kstat
         while (my ($k, $v) = each(%{$kstat->{$module}{$instance}{$name}})) {
             next if ($k eq "crtime" || $k eq "snaptime" || $k eq "class");
-            putval($category, $alias, $type, $k, $interval, $v);
+            putval($category, $alias, $k, $interval, $v);
         }
     }
 }
@@ -230,12 +226,11 @@ sub put_arc {
     my $module   = "zfs";
     my $instance = 0;
     my $name     = "arcstats";
-    my $type     = "gauge";
 
     # Iterate over each defined kstat
     while (my ($k, $v) = each(%{$kstat->{$module}{$instance}{$name}})) {
         next if ($k eq "crtime" || $k eq "snaptime" || $k eq "class");
-        putval($category, $name, $type, $k, $interval, $v);
+        putval($category, $name, $k, $interval, $v);
     }
 }
 
@@ -246,14 +241,13 @@ sub put_zpool {
     my $category = "zfs";
     my $module   = "zfs";
     my $instance = 0;
-    my $type     = "gauge";
 
     # Iterate over each defined kstat
     while (my $name = each(%{$kstat->{$module}{$instance}})) {
         next if ($kstat->{$module}{$instance}{$name}{"class"} ne "disk");
         while (my ($k, $v) = each(%{$kstat->{$module}{$instance}{$name}})) {
             next if ($k eq "crtime" || $k eq "snaptime" || $k eq "class");
-            putval($category, $name, $type, $k, $interval, $v);
+            putval($category, $name, $k, $interval, $v);
         }
     }
 }
@@ -264,7 +258,6 @@ sub put_disk {
     #
     my $category = "disk";
     my $module = "sd";
-    my $type   = "gauge";
     my @keys = ("nread", "reads", "rlastupdate", "rlentime", "rtime", "writes",
                 "nwritten", "wlastupdate", "wlentime", "wtime");
 
@@ -275,7 +268,7 @@ sub put_disk {
         for (@keys) {
             # Read kstat and write value
             my $value = ${kstat}->{$module}->{$instance}->{$name}->{$_};
-            putval($category, $name, $type, $_, $interval, $value);
+            putval($category, $name, $_, $interval, $value);
         }
     }
 }
@@ -289,12 +282,11 @@ sub put_nfsv3 {
     my $module   = "nfs";
     my $instance = 0;
     my $name     = "rfsproccnt_v3";
-    my $type     = "gauge";
 
     # Iterate over each defined kstat
     while (my ($k, $v) = each(%{$kstat->{$module}{$instance}{$name}})) {
         next if ($k eq "crtime" || $k eq "snaptime" || $k eq "class");
-        putval($category, $alias, $type, $k, $interval, $v);
+        putval($category, $alias, $k, $interval, $v);
     }
 }
 
@@ -307,12 +299,11 @@ sub put_nfsv4 {
     my $module   = "nfs";
     my $instance = 0;
     my $name     = "rfsproccnt_v4";
-    my $type     = "gauge";
 
     # Iterate over each defined kstat
     while (my ($k, $v) = each(%{$kstat->{$module}{$instance}{$name}})) {
         next if ($k eq "crtime" || $k eq "snaptime" || $k eq "class");
-        putval($category, $alias, $type, $k, $interval, $v);
+        putval($category, $alias, $k, $interval, $v);
     }
 }
 

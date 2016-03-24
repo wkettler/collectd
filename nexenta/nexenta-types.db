@@ -1,0 +1,162 @@
+#
+# nexenta-types.db
+#
+# Custom Nexenta types.db for exec_nexenta.pl.
+#
+# Copyright (c) 2016  Nexenta Systems
+# William Kettler <william.kettler@nexenta.com>
+#
+# Version 0.1
+# March 24, 2016
+#
+
+# globals
+nread			value:DERIVE:0:U
+nwritten		value:DERIVE:0:U
+reads			value:DERIVE:0:U
+writes			value:DERIVE:0:U
+rtime			value:DERIVE:0:U
+wtime			value:DERIVE:0:U
+rlastupdate		value:DERIVE:0:U
+wlastupdate		value:DERIVE:0:U
+rlentime		value:DERIVE:0:U
+wlentime		value:DERIVE:0:U
+rcnt			value:DERIVE:0:U
+wcnt			value:DERIVE:0:U
+
+# cpu
+idle			value:DERIVE:0:U
+kernel			value:DERIVE:0:U
+user			value:DERIVE:0:U
+wait			value:DERIVE:0:U
+xcalls			value:DERIVE:0:U
+
+# memory
+kern			value:GAUGE:0:U
+locked			value:GAUGE:0:U
+total			value:GAUGE:0:U
+used			value:GAUGE:0:U
+
+# network
+ierrors			value:DERIVE:0:U
+ipackets64		value:DERIVE:0:U
+rbytes64		value:DERIVE:0:U
+oerrors			value:DERIVE:0:U
+opackets64		value:DERIVE:0:U
+obytes64		value:DERIVE:0:U
+
+# arcstats
+arc_meta_limit		value:GAUGE:0:U
+arc_meta_max		value:GAUGE:0:U
+arc_meta_used		value:GAUGE:0:U
+c			value:DERIVE:0:U
+c_max			value:DERIVE:0:U
+c_min			value:DERIVE:0:U
+data_size		value:DERIVE:0:U
+deleted			value:DERIVE:0:U
+demand_data_hits	value:DERIVE:0:U
+demand_data_misses	value:DERIVE:0:U
+demand_metadata_hits	value:DERIVE:0:U
+demand_metadata_misses	value:DERIVE:0:U
+duplicate_buffers	value:DERIVE:0:U
+duplicate_buffers_size	value:DERIVE:0:U
+duplicate_reads		value:DERIVE:0:U
+evict_l2_cached		value:DERIVE:0:U
+evict_l2_eligible	value:DERIVE:0:U
+evict_l2_ineligible	value:DERIVE:0:U
+evict_skip		value:DERIVE:0:U
+hash_chain_max		value:DERIVE:0:U
+hash_chains		value:DERIVE:0:U
+hash_collisions		value:DERIVE:0:U
+hash_elements		value:DERIVE:0:U
+hash_elements_max	value:DERIVE:0:U
+hdr_size		value:DERIVE:0:U
+hits			value:DERIVE:0:U
+l2_abort_lowmem		value:DERIVE:0:U
+l2_asize		value:DERIVE:0:U
+l2_cksum_bad		value:DERIVE:0:U
+l2_compress_failures	value:DERIVE:0:U
+l2_compress_successes	value:DERIVE:0:U
+l2_compress_zeros	value:DERIVE:0:U
+l2_evict_lock_retry	value:DERIVE:0:U
+l2_evict_reading	value:DERIVE:0:U
+l2_feeds		value:DERIVE:0:U
+l2_free_on_write	value:DERIVE:0:U
+l2_hdr_size		value:DERIVE:0:U
+l2_hits			value:DERIVE:0:U
+l2_io_error		value:DERIVE:0:U
+l2_misses		value:DERIVE:0:U
+l2_read_bytes		value:DERIVE:0:U
+l2_rw_clash		value:DERIVE:0:U
+l2_size			value:GAUGE:0:U
+l2_write_bytes		value:DERIVE:0:U
+l2_writes_done		value:DERIVE:0:U
+l2_writes_error		value:DERIVE:0:U
+l2_writes_hdr_miss	value:DERIVE:0:U
+l2_writes_sent		value:DERIVE:0:U
+memory_throttle_count	value:DERIVE:0:U
+mfu_ghost_hits		value:DERIVE:0:U
+mfu_hits		value:DERIVE:0:U
+misses			value:DERIVE:0:U
+mru_ghost_hits		value:DERIVE:0:U
+mru_hits		value:DERIVE:0:U
+mutex_miss		value:DERIVE:0:U
+other_size		value:DERIVE:0:U
+p			value:DERIVE:0:U
+prefetch_data_hits	value:DERIVE:0:U
+prefetch_data_misses	value:DERIVE:0:U
+prefetch_metadata_hits	value:DERIVE:0:U
+prefetch_metadata_misses	value:DERIVE:0:U
+recycle_miss		value:DERIVE:0:U
+size			value:GAUGE:0:U
+
+# nfs
+access			value:DERIVE:0:U
+commit			value:DERIVE:0:U
+create			value:DERIVE:0:U
+fsinfo			value:DERIVE:0:U
+fsstat			value:DERIVE:0:U
+getattr			value:DERIVE:0:U
+link			value:DERIVE:0:U
+lookup			value:DERIVE:0:U
+mkdir			value:DERIVE:0:U
+mknod			value:DERIVE:0:U
+null			value:DERIVE:0:U
+pathconf		value:DERIVE:0:U
+read			value:DERIVE:0:U
+readdir			value:DERIVE:0:U
+readdirplus		value:DERIVE:0:U
+readlink		value:DERIVE:0:U
+remove			value:DERIVE:0:U
+rename			value:DERIVE:0:U
+rmdir			value:DERIVE:0:U
+setattr			value:DERIVE:0:U
+symlink			value:DERIVE:0:U
+write			value:DERIVE:0:U
+close			value:DERIVE:0:U
+compound		value:DERIVE:0:U
+delegpurge		value:DERIVE:0:U
+delegreturn		value:DERIVE:0:U
+getfh			value:DERIVE:0:U
+illegal			value:DERIVE:0:U
+lock			value:DERIVE:0:U
+lockt			value:DERIVE:0:U
+locku			value:DERIVE:0:U
+lookupp			value:DERIVE:0:U
+nverify			value:DERIVE:0:U
+open			value:DERIVE:0:U
+open_confirm		value:DERIVE:0:U
+open_downgrade		value:DERIVE:0:U
+openattr		value:DERIVE:0:U
+putfh			value:DERIVE:0:U
+putpubfh		value:DERIVE:0:U
+putrootfh		value:DERIVE:0:U
+release_lockowner	value:DERIVE:0:U
+renew			value:DERIVE:0:U
+reserved		value:DERIVE:0:U
+restorefh		value:DERIVE:0:U
+savefh			value:DERIVE:0:U
+secinfo			value:DERIVE:0:U
+setclientid		value:DERIVE:0:U
+setclientid_confirm	value:DERIVE:0:U
+verify			value:DERIVE:0:U
