@@ -7,7 +7,7 @@
  *
  * Monitor NFS read/write and getattr performance.
  *
- * All latencies are reported in usecs.
+ * All latencies are reported in nanosecs.
  *
  * Copyright (c) 2016  Nexenta Systems
  * William Kettler <william.kettler@nexenta.com>
