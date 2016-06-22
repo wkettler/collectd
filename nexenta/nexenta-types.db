@@ -49,10 +49,10 @@ obytes64		value:DERIVE:0:U
 arc_meta_limit		value:GAUGE:0:U
 arc_meta_max		value:GAUGE:0:U
 arc_meta_used		value:GAUGE:0:U
-c			value:DERIVE:0:U
-c_max			value:DERIVE:0:U
-c_min			value:DERIVE:0:U
-data_size		value:DERIVE:0:U
+c			value:GAUGE:0:U
+c_max			value:GAUGE:0:U
+c_min			value:GAUGE:0:U
+data_size		value:GAUGE:0:U
 deleted			value:DERIVE:0:U
 demand_data_hits	value:DERIVE:0:U
 demand_data_misses	value:DERIVE:0:U
@@ -73,7 +73,7 @@ hash_elements_max	value:DERIVE:0:U
 hdr_size		value:DERIVE:0:U
 hits			value:DERIVE:0:U
 l2_abort_lowmem		value:DERIVE:0:U
-l2_asize		value:DERIVE:0:U
+l2_asize		value:GAUGE:0:U
 l2_cksum_bad		value:DERIVE:0:U
 l2_compress_failures	value:DERIVE:0:U
 l2_compress_successes	value:DERIVE:0:U
@@ -82,7 +82,7 @@ l2_evict_lock_retry	value:DERIVE:0:U
 l2_evict_reading	value:DERIVE:0:U
 l2_feeds		value:DERIVE:0:U
 l2_free_on_write	value:DERIVE:0:U
-l2_hdr_size		value:DERIVE:0:U
+l2_hdr_size		value:GAUGE:0:U
 l2_hits			value:DERIVE:0:U
 l2_io_error		value:DERIVE:0:U
 l2_misses		value:DERIVE:0:U
@@ -101,7 +101,7 @@ misses			value:DERIVE:0:U
 mru_ghost_hits		value:DERIVE:0:U
 mru_hits		value:DERIVE:0:U
 mutex_miss		value:DERIVE:0:U
-other_size		value:DERIVE:0:U
+other_size		value:GAUGE:0:U
 p			value:DERIVE:0:U
 prefetch_data_hits	value:DERIVE:0:U
 prefetch_data_misses	value:DERIVE:0:U
