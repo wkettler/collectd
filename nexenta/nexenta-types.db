@@ -160,3 +160,8 @@ secinfo			value:DERIVE:0:U
 setclientid		value:DERIVE:0:U
 setclientid_confirm	value:DERIVE:0:U
 verify			value:DERIVE:0:U
+
+# nfsmon
+r_latency       value:GAUGE:0:U
+w_latency       value:GAUGE:0:U
+g_latency       value:GAUGE:0:U
